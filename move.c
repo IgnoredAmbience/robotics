@@ -3,6 +3,31 @@
 #define VELOCITY 0.245 // m/s
 #define ANG_VELOCITY 1 // rad/s
 #define MOTOR_C_CHANGE 1
+#define DISPLAY_SCALE 1
+
+/* Position estimation */
+struct state_t {
+  float x, y, a;
+} robot_position;
+
+/* Sets new position, returning old */
+struct state_t set_position(struct state_t new) {
+  eraseDisplay();
+  struct state_t old = robot_position;
+  robot_position = new;
+  nxtSetPixel((int) (new.x / DISPLAY_SCALE), (int) (new.y / DISPLAY_SCALE));
+  return old;
+}
+
+/* Updates existing position, by given deltas */
+struct state_t update_position(float x, float y, float a) {
+  struct state_t new = robot_position;
+  new.x += x;
+  new.y += y;
+  new.a += a;
+  set_position(new);
+  return new;
+}
 
 // TODO: Consider using the motor encoders
 
@@ -40,6 +65,9 @@ void move_ang(int angle) {
 void forward(float distance, bool reverse = false) {
   int rev = reverse ? -1 : 1;
   move(rev*100, rev*100, distance/VELOCITY);
+
+  update_position(rev * distance * cos(robot_position.a),
+                  rev * distance * sin(robot_position.a), 0);
 }
 
 
@@ -49,4 +77,7 @@ void rotate(float angle) {
   int left = (angle < 0) ? -1 : 1;
   float time = abs(angle) / ANG_VELOCITY;
   move(left * 100, -left * 100, time);
+
+  update_position(0, 0, angle);
 }
+
