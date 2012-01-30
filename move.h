@@ -1,0 +1,20 @@
+/* Movement functions */
+#define POWER_RATIO 0.5
+#define VELOCITY 0.245 // m/s
+#define ANG_VELOCITY 1 // rad/s
+#define MOTOR_C_CHANGE 1
+#define DISPLAY_SCALE 10
+
+/* Position estimation */
+typedef struct {
+  float x, y, a;
+} state_t;
+
+void init_position();
+void update_position(float x, float y, float a);
+void update_display();
+void move(float left, float right, int time);
+void stop(int time);
+void move_ang(int angle);
+void forward(float distance, bool reverse = false);
+void rotate(float angle);
