@@ -50,14 +50,13 @@ void move_rot(float left, float right, int rot) {
     // This condition waits for motors B + C to come to an idle position. Both motors stop
     // and then jumps out of the loop
   }
-  nxtScrollText("B: %d C: %d", nMotorEncoder[motorB], nMotorEncoder[motorC]);
 }
 
 // distance in mm
 void forward(float distance, bool reverse) {
   int rev = reverse ? -1 : 1;
   //move(rev*100, rev*100, distance/VELOCITY);
-  move_rot(rev*100, rev*100, (distance/ROT_DISTANCE) + 1);
+  move_rot(rev*100, rev*100, distance/ROT_DISTANCE);
 
   update_position(rev * distance * cosDegrees(robot_position.a),
                   rev * distance * sinDegrees(robot_position.a), 0);
@@ -74,4 +73,7 @@ void rotate(float angle) {
   move_rot(left * 100, -left * 100, rot);
 
   update_position(0, 0, angle);
+  PlaySound(soundShortBlip);
+  wait10Msec(100);
+  PlaySound(soundShortBlip);
 }

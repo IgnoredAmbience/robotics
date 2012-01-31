@@ -1,10 +1,10 @@
 /* Movement functions */
-#define POWER_RATIO 0.5
+#define POWER_RATIO 0.2
 #define VELOCITY 0.245 // m/s
 #define ANG_VELOCITY 1 // rad/s
 
-#define ROT_DISTANCE 0.4742 // mm/rot
-#define ROT_TURN 0.36 // ang/rot
+#define ROT_DISTANCE 0.480192077 // mm/rot
+#define ROT_TURN 0.486486486 // ang/rot
 
 #define MOTOR_C_CHANGE 1
 #define DISPLAY_SCALE 10
