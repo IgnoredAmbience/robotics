@@ -35,15 +35,15 @@ void stop(int time)
   move(0, 0, time);
 }
 
-void move_ang(int angle) {
+void move_rot(float left, float right, int rot) {
   nMotorEncoder[motorC] = 0;
   nMotorEncoder[motorB] = 0;
 
-  nMotorEncoderTarget[motorC] = angle;
-  nMotorEncoderTarget[motorB] = angle;
+  nMotorEncoderTarget[motorC] = rot;
+  nMotorEncoderTarget[motorB] = rot;
 
-  motor[motorC] = 100 * POWER_RATIO; //turn both motors on at 30 percent power
-  motor[motorB] = 100 * POWER_RATIO;
+  motor[motorC] = left * MOTOR_C_CHANGE * POWER_RATIO; //turn both motors on at 30 percent power
+  motor[motorB] = right * POWER_RATIO;
 
   while (nMotorRunState[motorC] != runStateIdle && nMotorRunState[motorB] != runStateIdle) //while the encoder wheel turns one revolution
   {
@@ -56,7 +56,8 @@ void move_ang(int angle) {
 // distance in mm
 void forward(float distance, bool reverse) {
   int rev = reverse ? -1 : 1;
-  move(rev*100, rev*100, distance/VELOCITY);
+  //move(rev*100, rev*100, distance/VELOCITY);
+  move_rot(rev*100, rev*100, (distance/ROT_DISTANCE) + 1);
 
   update_position(rev * distance * cosDegrees(robot_position.a),
                   rev * distance * sinDegrees(robot_position.a), 0);
@@ -67,8 +68,10 @@ void forward(float distance, bool reverse) {
 // angle in same unit as angularVelocity constant
 void rotate(float angle) {
   int left = (angle < 0) ? -1 : 1;
-  float time = abs(angle) / ANG_VELOCITY;
-  move(left * 100, -left * 100, time);
+
+  int rot = angle/ROT_TURN;
+
+  move_rot(left * 100, -left * 100, rot);
 
   update_position(0, 0, angle);
 }
