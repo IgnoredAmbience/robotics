@@ -6,6 +6,7 @@ void init_position() {
   robot_position.x = 0;
   robot_position.y = 0;
   robot_position.a = 0;
+  eraseDisplay();
   update_display();
 }
 
@@ -18,8 +19,7 @@ void update_position(float x, float y, float a) {
 }
 
 void update_display() {
-  eraseDisplay();
-  nxtSetPixel((int) (robot_position.x / DISPLAY_SCALE), (int) (robot_position.y / DISPLAY_SCALE));
+  nxtSetPixel((int) (robot_position.x / DISPLAY_SCALE) + 10, (int) (robot_position.y / DISPLAY_SCALE) + 10);
 }
 
 // TODO: Consider using the motor encoders
@@ -45,10 +45,17 @@ void move_rot(float left, float right, int rot) {
   motor[motorC] = left * MOTOR_C_CHANGE * POWER_RATIO; //turn both motors on at 30 percent power
   motor[motorB] = right * POWER_RATIO;
 
+  int prevEncoder = 0;
+
   while (nMotorRunState[motorC] != runStateIdle && nMotorRunState[motorB] != runStateIdle) //while the encoder wheel turns one revolution
   {
-    // This condition waits for motors B + C to come to an idle position. Both motors stop
-    // and then jumps out of the loop
+    // Update display position when moving straight-line
+    if(left == right) {
+      int m = nMotorEncoder[motorC];
+      float delta = (m - prevEncoder) * ROT_DISTANCE;
+      update_position(delta * cosDegrees(robot_position.a), delta * sinDegrees(robot_position.a), 0);
+      prevEncoder = m;
+    }
   }
 }
 
@@ -57,9 +64,6 @@ void forward(float distance, bool reverse) {
   int rev = reverse ? -1 : 1;
   //move(rev*100, rev*100, distance/VELOCITY);
   move_rot(rev*100, rev*100, distance/ROT_DISTANCE);
-
-  update_position(rev * distance * cosDegrees(robot_position.a),
-                  rev * distance * sinDegrees(robot_position.a), 0);
 }
 
 
