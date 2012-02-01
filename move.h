@@ -1,5 +1,5 @@
 /* Movement functions */
-#define POWER_RATIO 0.2
+#define POWER_RATIO 0.5
 #define VELOCITY 0.245 // m/s
 #define ANG_VELOCITY 1 // rad/s
 
