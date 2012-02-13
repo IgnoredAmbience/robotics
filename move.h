@@ -21,4 +21,5 @@ void move(float left, float right, int time);
 void stop(int time);
 void move_rot(float left, float right, int rot);
 void forward(float distance, bool reverse = false);
+void reverse(float distance);
 void rotate(float angle);
