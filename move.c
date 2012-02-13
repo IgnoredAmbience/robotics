@@ -66,18 +66,18 @@ void forward(float distance, bool reverse) {
   move_rot(rev*100, rev*100, distance/ROT_DISTANCE);
 }
 
+void reverse(float distance) {
+  forward(distance, true);
+}
 
 // +ve angle for left, -ve for right
 // angle in same unit as angularVelocity constant
 void rotate(float angle) {
   int left = (angle < 0) ? -1 : 1;
 
-  int rot = angle/ROT_TURN;
+  int rot = abs(angle)/ROT_TURN;
 
   move_rot(left * 100, -left * 100, rot);
 
   update_position(0, 0, angle);
-  PlaySound(soundShortBlip);
-  wait10Msec(100);
-  PlaySound(soundShortBlip);
 }
