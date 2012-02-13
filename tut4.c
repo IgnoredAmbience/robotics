@@ -12,20 +12,32 @@ static int bump_direction = 0;
 // Defaults right if head-on bump
 task collision() {
   if (bump_direction == 0) bump_direction = -1;
-  reverse(10);
+  reverse(100);
   rotate(bump_direction * 30);
+  forward(100);
+}
+
+task follow_light() {
+  motor[motorB] = SensorValue[left_light];
+  motor[motorC] = SensorValue[right_light];
 }
 
 task idling() {
-  motor[motorB] = 50;
-  motor[motorC] = 50;
+  motor[motorB] = 10;
+  motor[motorC] = -10;
 }
 
 task main() {
   while(true) {
-    if(SensorValue[right_bump] || SensorValue[left_bump]) {
+    if(SensorValue[right_light] > 70 || SensorValue[left_light] > 70) {
+      PlaySound(soundDownwardTones);
+      stop(1000);
+      break;
+    } else if(SensorValue[right_bump] || SensorValue[left_bump]) {
       bump_direction = -1 * SensorValue[right_bump] + SensorValue[left_bump];
       StartTask(collision, 10);
+    } else if(SensorValue[right_light] > 30 || SensorValue[left_light] > 30) {
+      StartTask(follow_light);
     } else {
       StartTask(idling);
     }
