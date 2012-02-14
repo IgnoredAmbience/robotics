@@ -1,0 +1,38 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=20mm]{geometry}
+\begin{document}
+
+\section*{Percepts}
+
+\begin{tabular}{l l}
+light(N,L) & Light sensor N is reading a light level of L \\
+bumped(N) & Bumper N is pressed \\
+brightLight & A bright light is detected \\
+\end{tabular}
+
+\section*{Actions}
+\begin{tabular}{l l}
+forward(S) & move forward at speed S \\
+reverse(S) & move backward at speed S \\
+motor\_speed(M,S) & the motor M and its speed S \\
+back\_up(D) & back up, rotate toward D, and go again after a collision \\
+\end{tabular}
+
+
+\section*{Subroutines}
+\begin{verbatim}
+navigate_to_light {
+  light(_,L), L > 70 => nil
+  bumped(B)          => back_up(B),
+  light(_,L), L > 30 => follow_light
+  true               => motor(left,-1), motor(right,1)
+}
+\end{verbatim}
+
+\begin{verbatim}
+follow_light {
+  light(l,LL), light(r,LR) => motor(l,LL),  motor(r,LR)
+}
+\end{verbatim}
+
+\end{document}
