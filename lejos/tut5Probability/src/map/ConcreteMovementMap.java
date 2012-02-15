@@ -103,7 +103,7 @@ public class ConcreteMovementMap<PointData> implements MovementMap<PointData> {
 	 * @param y
 	 */
 	protected boolean checkPoint(int x, int y) {
-		return (x > 0 && x < this.xSize && y > 0 && y < this.ySize);
+		return (x >= 0 && x < this.xSize && y >= 0 && y < this.ySize);
 	}
 	
 	/**
