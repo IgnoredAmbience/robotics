@@ -9,5 +9,10 @@ import navigation.Pose;
  *
  */
 public class Particle extends Pose {
+
+	public double getWeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	// TODO: extend Pose with weights and other abilita
 }

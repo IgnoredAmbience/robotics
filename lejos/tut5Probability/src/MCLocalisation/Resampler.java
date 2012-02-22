@@ -1,21 +1,26 @@
 package MCLocalisation;
 
+import navigation.particles.Particle;
 import navigation.particles.ParticleSet;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Resampler {
 	
 	public static ParticleSet resample(ParticleSet s) {
 		
 		ParticleSet newSet = new ParticleSet ();
+		ArrayList<Pair> accumulatorArray = new ArrayList<Pair> ();
 		
 		double accumulator = 0.0;
 		for (Particle p : s) {
 			accumulator += p.getWeight();
 			
 		}
+		
+		// TODO: finish this;
+		
+		return newSet;
 		
 	}
 	

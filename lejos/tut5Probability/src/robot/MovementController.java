@@ -1,12 +1,9 @@
-import lejos.nxt.Motor;
-import lejos.nxt.MotorPort;
-import lejos.nxt.NXTMotor;
-import lejos.nxt.NXTRegulatedMotor;
+package robot;
+
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.Move;
 import lejos.robotics.navigation.MoveListener;
 import lejos.robotics.navigation.RotateMoveController;
-import lejos.util.Delay;
 
 /**
  * Simplistic motion functions for a differentially-driven robot using the motor encoders

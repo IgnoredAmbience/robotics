@@ -1,5 +1,4 @@
-import map.ErrorMap;
-
+import navigation.ErrorMap;
 
 public class Main {
 	public static void main (String [] args) {

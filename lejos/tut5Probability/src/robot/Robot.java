@@ -1,8 +1,8 @@
 package robot;
 
 import tasks.Task;
+import utils.DoubleHeadedQueue;
 
-import java.util.LinkedList;
 import java.lang.Runnable;
 
 import lejos.robotics.RegulatedMotor;
@@ -10,7 +10,7 @@ import lejos.nxt.Motor;
 
 public class Robot implements Runnable {
 	
-	private LinkedList<Task> tasks;
+	private DoubleHeadedQueue<Task> tasks;
 	
 	private MovementController motors;
 	
@@ -22,7 +22,7 @@ public class Robot implements Runnable {
 	public Robot () {
 		
 		this.motors = new MovementController (LEFT_MOTOR, RIGHT_MOTOR, WHEEL_SEPARATION, WHEEL_DIAMETER);
-		tasks = new LinkedList<Task> ();
+		tasks = new DoubleHeadedQueue<Task> ();
 	}
 	
 	/**
@@ -32,7 +32,7 @@ public class Robot implements Runnable {
 		
 		while (!tasks.isEmpty()) {
 			
-			Task currentTask = tasks.poll();
+			Task currentTask = tasks.popFront();
 			
 			currentTask.run(this);
 			
@@ -45,7 +45,7 @@ public class Robot implements Runnable {
 	 * @param t
 	 */
 	public void addTaskToHead(Task t) {
-		tasks.addFirst(t);
+		tasks.pushToFront(t);
 	}
 	
 	/**
@@ -53,11 +53,11 @@ public class Robot implements Runnable {
 	 * @param t
 	 */
 	public void addTaskToEnd(Task t) {
-		tasks.addLast(t);
+		tasks.pushToBack(t);
 	}
 	
 	public Task getNextTask() {
-		return tasks.peek();
+		return tasks.peekFront();
 	}
 	
 	

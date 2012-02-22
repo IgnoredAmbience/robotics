@@ -11,5 +11,6 @@ public class ParticleSet extends ArrayList<Particle> {
 	
 	public float getWeight() {
 		return 1/this.size();
+
 	}
 }
