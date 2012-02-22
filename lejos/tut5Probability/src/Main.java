@@ -9,7 +9,7 @@ public class Main {
 	public static void main (String [] args) {
 		Button.waitForAnyPress();
 		
-		RotateMoveController m = new MovementController(56, 106.5f, Motor.C, Motor.B);
+		RotateMoveController m = new MovementController(56, 125f, Motor.C, Motor.B);
 		 
 		for(int i = 0; i < 4; i++) {
 		  m.travel(400);
