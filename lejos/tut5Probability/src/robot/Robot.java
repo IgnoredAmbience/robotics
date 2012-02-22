@@ -14,14 +14,14 @@ public class Robot implements Runnable {
 	
 	private MovementController motors;
 	
-	private final float WHEEL_SEPARATION = 1.0f;
-	private final float WHEEL_DIAMETER = 1.0f;
+	private final float WHEEL_SEPARATION = 56;
+	private final float WHEEL_DIAMETER = 125f;
 	private final RegulatedMotor LEFT_MOTOR = Motor.C;
 	private final RegulatedMotor RIGHT_MOTOR = Motor.B;
 	
 	public Robot () {
 		
-		this.motors = new MovementController (LEFT_MOTOR, RIGHT_MOTOR, WHEEL_SEPARATION, WHEEL_DIAMETER);
+		this.motors = new MovementController (WHEEL_DIAMETER, WHEEL_SEPARATION, LEFT_MOTOR, RIGHT_MOTOR);
 		tasks = new DoubleHeadedQueue<Task> ();
 	}
 	
