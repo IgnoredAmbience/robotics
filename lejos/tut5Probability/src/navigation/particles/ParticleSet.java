@@ -7,15 +7,9 @@ public class ParticleSet extends ArrayList<Particle> {
 	
 	public ParticleSet () {
 		super(MAX_SIZE);
-	}
-	
-	
-	public void addParticle (Particle p) {
-		particles.add(p);
-	}
-	
+	}	
 	
 	public float getWeight() {
-		return 1/particles.size();
+		return 1/this.size();
 	}
 }
