@@ -1,4 +1,4 @@
-package randomNumberGeneration;
+package utils;
 
 import java.util.Random;
 

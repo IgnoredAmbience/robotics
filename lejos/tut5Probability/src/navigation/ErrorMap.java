@@ -1,7 +1,7 @@
-package map;
+package navigation;
 
 import lejos.nxt.LCD;
-import interfacesThatBatesWants.Drawable;
+import interfaces.Drawable;
 
 /**
  * Specific type of ConcreteMovementMap which uses the Float as the type of PointData.

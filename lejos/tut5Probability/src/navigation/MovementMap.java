@@ -1,4 +1,4 @@
-package map;
+package navigation;
 
 /**
  * Describes a 2D map of PointType. The map size is fixed at creation time.
