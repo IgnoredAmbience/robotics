@@ -2,9 +2,6 @@ package randomNumberGeneration;
 
 import java.util.Random;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.NormalDistributionImpl;;
-
 public class RandomGenerator {
 	
 	/**
@@ -15,11 +12,9 @@ public class RandomGenerator {
 	 * @return a sample from a gaussian distribution, unless it is not possible with the given inputs, in which case it returns Double max.
 	 */
 	public static double sampleGaussian(float mean, float standardDeviation) {
-		try {
-			return new NormalDistributionImpl (mean, standardDeviation).sample();
-		} catch (MathException e) {
-			return Double.MAX_VALUE;
-		}
+		Random r = new Random();
+
+		return standardDeviation * r.nextGaussian() + mean;
 	}
 	
 	/**
@@ -30,8 +25,7 @@ public class RandomGenerator {
 	 */
 	public static double sampleUniform(float max) {
 		Random r = new Random();
-		
+
 		return r.nextFloat() * max;
 	}
-	
 }
