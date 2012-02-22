@@ -18,10 +18,8 @@ public class Wall {
 	 * @param p2 
 	 */
 	public Wall(Point p1, Point p2) {
-		
 		this.a = p1;
 		this.b = p2;
-		
 	}
 	
 	/**
@@ -51,7 +49,7 @@ public class Wall {
 		double yDiff = b.getY() - a.getY();
 		double xDiff = b.getX() - a.getX();
 		
-		double div = (yDiff * Math.cos(angle)) - xDiff * Math.sin(angle));
+		double div = (yDiff * Math.cos(angle)) - xDiff * Math.sin(angle);
 		
 		if (div == 0) {
 			return Double.MAX_VALUE;
@@ -76,8 +74,8 @@ public class Wall {
 	}
 	
 	private Point movePoint (float x, float y, double angle, double distance) {
-		float newX = x + distance * Math.cos(angle);
-		float newY = y + distance * Math.sin(angle);
+		float newX = (float) (x + distance * Math.cos(angle));
+		float newY = (float) (y + distance * Math.sin(angle));
 		
 		return new Point(newX, newY);
 	}
@@ -91,24 +89,4 @@ public class Wall {
 			     p.getY() > a.getY() && p.getY() < b.getY());
 		
 	}
-
-	public Point getP1() {
-		return p1;
-	}
-
-	public void setP1(Point p1) {
-		this.p1 = p1;
-	}
-
-	public Point getP2() {
-		return p2;
-	}
-
-	public void setP2(Point p2) {
-		this.p2 = p2;
-	}
-	
-	
-	
-	
 }

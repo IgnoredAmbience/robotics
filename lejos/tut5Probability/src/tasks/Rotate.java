@@ -27,14 +27,13 @@ public class Rotate implements Task {
 		
 		if (isDegrees) {
 			this.angleToRotate = angleToRotate;
-		angleToRotate = (isDegrees ? angleToRotate : Math.toDegrees(angleToRotate));
-		
+		} else {
+			this.angleToRotate = (float) Math.toDegrees(angleToRotate);
+		}
 	}
 	
 	@Override
 	public void run(Robot r) {
 		r.rotate(this.angleToRotate);
-
 	}
-
 }

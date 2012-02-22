@@ -1,6 +1,6 @@
 package navigation;
 
-import java.awt.geom.Point2D
+import java.awt.geom.Point2D;
 
 public class Pose extends Point2D.Float {
 
