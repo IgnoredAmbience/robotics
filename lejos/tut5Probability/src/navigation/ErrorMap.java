@@ -1,4 +1,4 @@
-package map;
+package navigation;
 
 import lejos.nxt.LCD;
 import interfacesThatBatesWants.Drawable;

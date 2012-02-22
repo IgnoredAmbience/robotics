@@ -1,13 +1,12 @@
-package particles;
+package navigation.particles;
 
 import java.util.ArrayList;
 
-public class ParticleSet {
-	private ArrayList<Particle> particles;
-	private final int MAX_SIZE = 100;
+public class ParticleSet extends ArrayList<Particle> {
+	private final static int MAX_SIZE = 100;
 	
 	public ParticleSet () {
-		this.particles = new ArrayList<Particle> (MAX_SIZE);
+		super(MAX_SIZE);
 	}
 	
 	
