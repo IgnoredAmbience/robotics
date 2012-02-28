@@ -1,6 +1,7 @@
 package navigation.particles;
 
-import lejos.robotics.navigation.Pose;
+import utils.Pose;
+import utils.RandomGenerator;
 
 /**
  * A class that shows a particle with a position and facing.
@@ -9,10 +10,21 @@ import lejos.robotics.navigation.Pose;
  *
  */
 public class Particle extends Pose {
+	static float MOVE_DEVIATION = 7f;
+	static float ROTATE_DEVIATION = 5f;
 
 	public double getWeight() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	// TODO: extend Pose with weights and other abilita
+	
+	@Override
+	public void moveUpdate(float distance) {
+		super.moveUpdate(RandomGenerator.sampleGaussian(distance, MOVE_DEVIATION));
+	}
+	
+	@Override
+	public void rotateUpdate(float angle) {
+		super.rotateUpdate(RandomGenerator.sampleGaussian(angle, ROTATE_DEVIATION));
+	}
 }

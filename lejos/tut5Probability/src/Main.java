@@ -1,3 +1,4 @@
+import navigation.particles.ParticleSet;
 import robot.Robot;
 import tasks.MoveInSquare;
 import tasks.PositionPlotter;
@@ -8,12 +9,13 @@ public class Main {
 		Button.waitForAnyPress();
 		
 		Robot r = new Robot();
-		PositionPlotter p = new PositionPlotter(r);
-		p.setDaemon(true);
+		ParticleSet p = new ParticleSet();
+		r.motors.addMoveListener(p);
 		
 		r.addTaskToEnd(new MoveInSquare());
 		
-		p.start();
 		r.run();
+		
+		Button.waitForAnyPress();
 	}
 }
