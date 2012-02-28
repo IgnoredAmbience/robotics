@@ -1,17 +1,19 @@
-import robot.MovementController;
+import robot.Robot;
+import tasks.MoveInSquare;
+import tasks.PositionPlotter;
 import lejos.nxt.Button;
-import lejos.nxt.Motor;
-import lejos.robotics.navigation.RotateMoveController;
 
 public class Main {
 	public static void main (String [] args) {
 		Button.waitForAnyPress();
 		
-		RotateMoveController m = new MovementController(56, 125, Motor.C, Motor.B);
-		 
-		for(int i = 0; i < 4; i++) {
-		  m.travel(400);
-		  m.rotate(90);
-		}
+		Robot r = new Robot();
+		PositionPlotter p = new PositionPlotter(r);
+		p.setDaemon(true);
+		
+		r.addTaskToEnd(new MoveInSquare());
+		
+		p.start();
+		r.run();
 	}
 }

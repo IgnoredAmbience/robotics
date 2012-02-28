@@ -34,6 +34,6 @@ public class Rotate implements Task {
 	
 	@Override
 	public void run(Robot r) {
-		r.rotate(this.angleToRotate);
+		r.motors.rotate(this.angleToRotate);
 	}
 }

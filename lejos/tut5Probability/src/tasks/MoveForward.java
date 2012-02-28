@@ -15,7 +15,7 @@ public class MoveForward implements Task {
 	@Override
 	public void run(Robot r) {
 		
-		r.moveForward(distanceToMove);
+		r.motors.travel(distanceToMove);
 
 	}
 

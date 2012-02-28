@@ -3,6 +3,8 @@ package navigation;
 import java.util.Collection;
 import java.util.ArrayList;
 
+import lejos.robotics.navigation.Pose;
+
 public class WallSet {
 	
 	private Collection<Wall> walls;

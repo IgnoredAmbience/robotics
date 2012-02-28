@@ -12,14 +12,14 @@ public class MoveBackward implements Task {
 	 */
 	public MoveBackward(float distanceToMove) {
 		
-		this.distanceToMove = distanceToMove;
+		this.distanceToMove = -distanceToMove;
 		
 	}
 	
 	@Override
 	public void run(Robot r) {
 		
-		r.moveBackwards(distanceToMove);
+		r.motors.travel(distanceToMove);
 
 	}
 

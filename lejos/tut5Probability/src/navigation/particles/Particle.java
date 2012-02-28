@@ -1,6 +1,6 @@
 package navigation.particles;
 
-import navigation.Pose;
+import lejos.robotics.navigation.Pose;
 
 /**
  * A class that shows a particle with a position and facing.

@@ -45,7 +45,7 @@ public class MovementController implements RotateMoveController, RegulatedMotorL
 	
 	// MoveListener support
 	private ArrayList<MoveListener> _moveListeners = new ArrayList<MoveListener>();
-	private MoveType _move;
+	private MoveType _move = MoveType.STOP;
 	private double _moveDistance;
 	private double _moveRotate;
 	
@@ -64,6 +64,9 @@ public class MovementController implements RotateMoveController, RegulatedMotorL
 		
 		setTravelSpeed(0.5f * getMaxTravelSpeed());
 		setRotateSpeed(0.3f * getRotateMaxSpeed());
+		
+		_l.addListener(this);
+		_r.addListener(this);
 		
 		resetTacho();
 	}
@@ -263,6 +266,7 @@ public class MovementController implements RotateMoveController, RegulatedMotorL
 	 * Notifies all registered MovementListeners of the event 
 	 */
 	private void movementStarted() {
+		resetTacho();
 		for(MoveListener ml : _moveListeners) {
 			Move m = new Move(_move, (float) _moveDistance, (float) _moveRotate,
 											  _travelSpeed, _rotateSpeed, isMoving());
