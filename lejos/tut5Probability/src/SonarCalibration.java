@@ -18,7 +18,7 @@ public class SonarCalibration {
 			float d = sonar.getDistance();
 //			System.out.println(d);
 			LCD.drawString(String.valueOf(d), 0, 0);
-//			Sound.playTone((int) d * 100, 30, 50);
+			Sound.playTone((int) d * 100, 30, 50);
 			Thread.sleep(100);
 		}
 	}

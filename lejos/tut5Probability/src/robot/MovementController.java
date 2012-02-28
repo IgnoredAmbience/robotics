@@ -22,12 +22,12 @@ public class MovementController implements RotateMoveController, RegulatedMotorL
 	/** 
 	 * Diameter of wheels, in any unit
 	 */
-	private float _wheel_dia;
+	private float _wheelDia;
 	
 	/**
 	 * Separation between wheels, in any unit
 	 */
-	private float _wheel_sep;
+	private float _wheelSep;
 	
 	/**
 	 * Wheel rotations required for a given distance (deg/unit)
@@ -56,11 +56,11 @@ public class MovementController implements RotateMoveController, RegulatedMotorL
 			RegulatedMotor left, RegulatedMotor right) {
 		_l = left;
 		_r = right;
-		_wheel_dia = wheel_diameter;
-		_wheel_sep = wheel_sep;
-		_turnRatio = wheel_sep / wheel_diameter;
+		_wheelDia = wheel_diameter;
+		_wheelSep = wheel_sep;
 		
-		_degPerDistance = (float) (360 / (Math.PI * wheel_diameter));
+		_turnRatio = _wheelSep / _wheelDia;
+		_degPerDistance = (float) (360 / (Math.PI * _wheelDia));
 		
 		setTravelSpeed(0.5f * getMaxTravelSpeed());
 		setRotateSpeed(0.3f * getRotateMaxSpeed());

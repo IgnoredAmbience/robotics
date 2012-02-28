@@ -1,7 +1,6 @@
 import robot.MovementController;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
-import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.RotateMoveController;
 
 public class Main {
