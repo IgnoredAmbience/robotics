@@ -14,8 +14,8 @@ public class Robot implements Runnable {
 	
 	private MovementController motors;
 	
-	private final float WHEEL_SEPARATION = 56;
-	private final float WHEEL_DIAMETER = 125f;
+	private final float WHEEL_SEPARATION = 125;
+	private final float WHEEL_DIAMETER = 56;
 	private final RegulatedMotor LEFT_MOTOR = Motor.C;
 	private final RegulatedMotor RIGHT_MOTOR = Motor.B;
 	
