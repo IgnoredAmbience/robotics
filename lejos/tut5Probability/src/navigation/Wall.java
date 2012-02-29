@@ -7,6 +7,7 @@ import java.lang.Math;
 
 public class Wall {
 
+	private static final float ERROR = 0.001f;
 	private Point a;
 	private Point b;
 	
@@ -28,7 +29,7 @@ public class Wall {
 	 * @param p the pose of the object
 	 * @return the distance to the wall.
 	 */
-	public double distanceToWall(Pose p) {
+	public float distanceToWall(Pose p) {
 		return distanceToWall(p.getX(), p.getY(), p.getHeading());
 	}
 	
@@ -43,18 +44,18 @@ public class Wall {
 	 * @param angle angle of the input line, given from the x axis.
 	 * @return the distance to the wall. Returns max double if the wall and line do not intersect.
 	 */
-	public double distanceToWall(double x, double y, double angle) {
+	public float distanceToWall(float x, float y, float angle) {
 		
-		double yDiff = b.getY() - a.getY();
-		double xDiff = b.getX() - a.getX();
+		float yDiff = (float) (b.getY() - a.getY());
+		float xDiff = (float) (b.getX() - a.getX());
 		
-		double div = (yDiff * Math.cos(angle)) - xDiff * Math.sin(angle);
+		float div = (float) ((yDiff * Math.cos(angle)) - xDiff * Math.sin(angle));
 		
-		if (div == 0) {
-			return Double.MAX_VALUE;
+		if (div < ERROR) {
+			return Float.MAX_VALUE;
 		}
 		
-		double top = yDiff * (a.getX() - x) - xDiff * (a.getY() - y);
+		float top = yDiff * ((float)(a.getX()) - x) - xDiff * ((float)(a.getY()) - y);
 		
 		return top / div;
 		
@@ -65,7 +66,7 @@ public class Wall {
 	}
 	
 	
-	public boolean willCollide(double x, double y, double angle) {
+	public boolean willCollide(float x, float y, float angle) {
 		double dist = distanceToWall(x, y, angle);
 		Point intersect = movePoint(x, y, angle, dist);
 		

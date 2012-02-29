@@ -1,55 +1,48 @@
 package tasks;
 
 import navigation.Wall;
+import navigation.WallSet;
 import navigation.particles.Particle;
-import navigation.particles.ParticleSet;
-import lejos.robotics.navigation.Pose;
 import robot.Robot;
 
 public class PredictOnSonar implements Task {
-
-	private static final double ERROR = 2;
-	private ParticleSet p;
 	
-	
-	public PredictOnSonar() {
-		p = new ParticleSet();
-	}
-	
-	public PredictOnSonar(ParticleSet possiblePoses) {
-		this.p = possiblePoses;
-	}
+	private double sonarDeviation = 0.0;
 	
 	@Override
 	public void run(Robot r) {
 		
-		int dist = r.getSensorDist();
+		float dist = r.getSensorDist();
+		WallSet w = r.wallSet;
+		sonarDeviation = r.sonarDeviation;
 		
-		Pose p = r.getCurrentPose();
 		
-		Wall w = r.wallSet.facingWall(p);
-		
-		if (!(w.distanceToWall(p) - dist < ERROR || dist - w.distanceToWall(p) < ERROR)) {
-			p = workOutBestPose(w, p);
-			r.setPose(p);
+		for (Particle p : r.particleSet) {
+			
+			float newWeight = calculateLikelihood(p, dist, w);
+			
+			p.setWeight(newWeight);
+			
 		}
 		
+	}
+	
+	public float calculateLikelihood(Particle p, float actualDist, WallSet w) {
+		
+		Wall facing = w.facingWall(p);
+		float pDist = facing.distanceToWall(p);
+		
+		return gausianFunc(pDist, actualDist);
 	}
 
-	private Pose workOutBestPose(Wall facingWall, Pose cur) {
+	private float gausianFunc(float m, float z) {
+		double accum = -(Math.pow((z - m), 2));
+		accum = (accum / (2 * Math.pow(sonarDeviation, 2)));
+		accum = Math.exp(accum);
 		
-		double dist = facingWall.distanceToWall(cur);
-		Pose best = cur;
-		
-		for (Particle p : this.p) {
-			double curDist = facingWall.distanceToWall(p);
-			if (dist > facingWall.distanceToWall(p)) {
-				best = p;
-				dist = curDist;
-			}
-		}
-		
-		return best;
+		return (float) accum;
 	}
+
+
 
 }

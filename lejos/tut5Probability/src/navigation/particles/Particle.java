@@ -40,7 +40,7 @@ public class Particle extends Pose {
 	/**
 	 * @param weight a positive double expressing the weight associated with this particle
 	 */
-	private void setWeight(float weight) {
+	public void setWeight(float weight) {
 		
 		if (weight < 0) {
 			throw new NumberFormatException("The weight given (" + weight + ") was negative. Weights cannot be negative.");
