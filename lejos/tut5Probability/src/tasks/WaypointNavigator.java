@@ -21,17 +21,24 @@ public class WaypointNavigator extends Queue<Point> implements Task {
 	public void run(Robot r) {
 		motor = r.motors;
 		while(!empty()) {
-			navigateTo((Point) pop());
+			navigateTo((Point) pop(), r);
 		}
 	}
 	
-	private void navigateTo(Point p) {
+	private void navigateTo(Point p, Robot r) {
+		
+		PredictOnSonar pre = new PredictOnSonar();
+		
+		pre.run(r);
+		
 		System.err.println("Travel to: " + p.toString());
 		Pose pose = poser.getPose();
 		float angle = pose.relativeBearing(p);
 		System.err.print(pose.toString() + " rotating: ");
 		System.err.println(angle);
 		motor.rotate(-angle);
+		
+		pre.run(r);
 		
 		Pose pose1 = poser.getPose();
 		float dist = pose1.distanceTo(p);

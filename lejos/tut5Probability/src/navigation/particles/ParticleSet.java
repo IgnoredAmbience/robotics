@@ -3,7 +3,10 @@ package navigation.particles;
 import interfaces.Drawable;
 import java.util.ArrayList;
 
+import MCLocalisation.Pair;
+
 import utils.Pose;
+import utils.RandomGenerator;
 
 import lejos.robotics.localization.PoseProvider;
 import lejos.robotics.navigation.Move;
@@ -62,16 +65,19 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 
 	@Override
 	public Pose getPose() {
-		double x = 0, y = 0, angle = 0;
+		resample();
+		
+		double x = 0, y = 0, angle = 0, weight = 0;
 		for(Particle p : this) {
-			x += p.getX();
-			y += p.getY();
-			angle += p.getHeading();
+			x += p.getWeight() * p.getX();
+			y += p.getWeight() * p.getY();
+			angle += p.getWeight() * p.getHeading();
+			weight += p.getWeight();
 		}
-		x /= size();
-		y /= size();
+		x /= weight;
+		y /= weight;
                 // FIXME: Angles cannot be handled so simply!
-		angle /= size();
+		angle /= weight;
 		
 		return new Pose((float) x, (float) y, (float) angle);
 	}
@@ -79,5 +85,46 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 	@Override
 	public void setPose(lejos.robotics.navigation.Pose aPose) {
 		// Intentionally empty
+	}
+	
+	
+	public void resample() {
+		
+		ParticleSet newSet = new ParticleSet (this.size());
+		ArrayList<Pair> accumulatorArray = new ArrayList<Pair> ();
+		
+		float accumulator = 0.0f;
+		for (Particle p : this) {
+			accumulator += p.getWeight();
+			accumulatorArray.add(new Pair(accumulator, p));
+		}
+		
+		
+		double counter = 0.0;
+		while (newSet.size() < this.size()) {
+			counter = RandomGenerator.sampleUniform(accumulator);
+			
+			Particle valueToAdd = null;
+			for (Pair p : accumulatorArray) {
+				
+				if (counter <= p.value) {
+					valueToAdd = p.attached;
+					break;
+				}
+			}
+			
+			if (valueToAdd == null) {
+				continue;
+			} else {
+				newSet.add(valueToAdd);
+			}
+		}
+		
+		this.clear();
+		
+		for (Particle p : newSet) {
+			this.add(p);
+		}
+		
 	}
 }
