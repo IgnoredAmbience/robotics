@@ -7,6 +7,7 @@ import utils.Pose;
 import java.lang.Runnable;
 
 import navigation.WallSet;
+import navigation.particles.ParticleSet;
 
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.localization.PoseProvider;
@@ -25,12 +26,14 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 	public RotateMoveController motors;
 	public UltrasonicSensor sonar;
 	public WallSet wallSet;
+	public ParticleSet particleSet;
 	private Pose pose = new Pose(1000,1000,0);
 	
 	private final float WHEEL_SEPARATION = 200;
 	private final float WHEEL_DIAMETER = 56;
 	private final RegulatedMotor LEFT_MOTOR = Motor.C;
 	private final RegulatedMotor RIGHT_MOTOR = Motor.B;
+	public final double sonarDeviation = 1;
 	
 	public Robot() {
 		this.motors = new DifferentialPilot(WHEEL_DIAMETER, WHEEL_SEPARATION, LEFT_MOTOR, RIGHT_MOTOR);
