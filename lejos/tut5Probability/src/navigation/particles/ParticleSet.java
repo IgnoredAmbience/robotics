@@ -3,12 +3,15 @@ package navigation.particles;
 import interfaces.Drawable;
 import java.util.ArrayList;
 
+import utils.Pose;
+
+import lejos.robotics.localization.PoseProvider;
 import lejos.robotics.navigation.Move;
 import lejos.robotics.navigation.MoveListener;
 import lejos.robotics.navigation.MoveProvider;
 
 
-public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveListener {
+public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveListener, PoseProvider {
 	private final static int MAX_SIZE = 100;
 	private final static float unitsPerPixel = 30;
 
@@ -48,9 +51,29 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 
 	@Override
 	public void moveStopped(Move event, MoveProvider mp) {
-		for(Particle p : this) {
+		for(Pose p : this) {
 			p.updatePose(event);
 		}
 		drawToLCD();
+	}
+
+	@Override
+	public Pose getPose() {
+		double x = 0, y = 0, angle = 0;
+		for(Particle p : this) {
+			x += p.getX();
+			y += p.getY();
+			angle += p.getHeading();
+		}
+		x /= MAX_SIZE;
+		y /= MAX_SIZE;
+		angle /= MAX_SIZE;
+		
+		return new Pose((float) x, (float) y, (float) angle);
+	}
+
+	@Override
+	public void setPose(lejos.robotics.navigation.Pose aPose) {
+		// Intentionally empty
 	}
 }
