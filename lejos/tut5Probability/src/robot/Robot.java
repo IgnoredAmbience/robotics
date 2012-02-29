@@ -29,8 +29,8 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 	public ParticleSet particleSet;
 	private Pose pose = new Pose(1000,1000,0);
 	
-	private final float WHEEL_SEPARATION = 200;
-	private final float WHEEL_DIAMETER = 56;
+	private final float WHEEL_SEPARATION = 175;
+	private final float WHEEL_DIAMETER = 55;
 	private final RegulatedMotor LEFT_MOTOR = Motor.C;
 	private final RegulatedMotor RIGHT_MOTOR = Motor.B;
 	public final double sonarDeviation = 20;

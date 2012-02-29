@@ -28,7 +28,7 @@ public class WaypointNavigator extends Queue<Point> implements Task {
 	private void navigateTo(Point p, Robot r) {
 		PredictOnSonar pre = new PredictOnSonar();
 		
-		//pre.run(r);
+		pre.run(r);
 
 		Pose pose = poser.getPose();
 		float angle = pose.relativeBearing(p);
@@ -37,7 +37,7 @@ public class WaypointNavigator extends Queue<Point> implements Task {
 		System.out.println(angle);
 		motor.rotate(angle);
 		
-		//pre.run(r);
+		pre.run(r);
 		
 		Pose pose1 = poser.getPose();
 		float dist = pose1.distanceTo(p);

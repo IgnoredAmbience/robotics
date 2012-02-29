@@ -14,8 +14,8 @@ public class Particle extends Pose {
 	
 	
 	private float weight;
-	static float MOVE_DEVIATION = 7f;
-	static float ROTATE_DEVIATION = 1f;
+	static float MOVE_DEVIATION = 10f;
+	static float ROTATE_DEVIATION = 5f;
 
 	public Particle() {
 		super();
@@ -63,13 +63,12 @@ public class Particle extends Pose {
 	
 	@Override
 	public void moveUpdate(float distance) {
-		super.moveUpdate(RandomGenerator.sampleGaussian(distance, MOVE_DEVIATION));
+		float f = RandomGenerator.sampleGaussian(distance, MOVE_DEVIATION);
+		super.moveUpdate(f);
 	}
 	
 	@Override
 	public void rotateUpdate(float angle) {
-		System.out.print("Rotated from: "+getHeading() + " by: " + angle);
 		super.rotateUpdate(RandomGenerator.sampleGaussian(angle, ROTATE_DEVIATION));
-		System.out.println(" to: "+getHeading());
 	}
 }

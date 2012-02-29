@@ -13,19 +13,7 @@ public class RandomGenerator {
 	 * @return a sample from a gaussian distribution, unless it is not possible with the given inputs, in which case it returns Double max.
 	 */
 	public static float sampleGaussian(float mean, float standardDeviation) {
-	  float u     = sampleUniform(1.0f);
-	  float theta = sampleUniform((float) (2 * Math.PI));
-
-	  // Fix to avoid infinity problem
-	  if (u == 0) {
-	    u = 0.0001f;
-	  }
-
-	  float r = (float) Math.sqrt(-2 * (float) Math.log(u));
-
-	  float x = r * (float) Math.cos(theta);
-
-	  return mean + standardDeviation * x;
+		return (float) (standardDeviation * r.nextGaussian() + mean);
 	}
 	
 	/**

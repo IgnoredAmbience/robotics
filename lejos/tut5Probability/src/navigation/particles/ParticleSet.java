@@ -74,7 +74,7 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 
 	@Override
 	public Pose getPose() {
-		//resample();
+		resample();
 		
 		double x = 0, y = 0, angle1 = 0, angle2 = 0, weight = 0;
 		for(Particle p : this) {
@@ -117,18 +117,18 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 		while (newSet.size() < this.size()) {
 			counter = RandomGenerator.sampleUniform(accumulator);
 			
-			Particle valueToAdd = null;
+			Particle v = null;
 			for (Pair p : accumulatorArray) {
 				if (counter <= p.value) {
-					valueToAdd = p.attached;
+					v = p.attached;
 					break;
 				}
 			}
 			
-			if (valueToAdd == null) {
+			if (v == null) {
 				continue;
 			} else {
-				newSet.add(valueToAdd);
+				newSet.add(new Particle(v.getX(), v.getY(), v.getHeading()));
 			}
 		}
 		
@@ -136,7 +136,6 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 		
 		for (Particle p : newSet) {
 			this.add(p);
-		}
-		
+		}		
 	}
 }
