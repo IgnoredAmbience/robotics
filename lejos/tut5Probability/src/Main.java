@@ -3,6 +3,7 @@ import robot.Robot;
 import tasks.MoveInSquare;
 import tasks.PositionPlotter;
 import tasks.WaypointNavigator;
+import utils.Pose;
 import lejos.geom.Point;
 import lejos.nxt.Button;
 
@@ -17,7 +18,7 @@ public class Main {
 		r.run();
 		*/
 		
-		ParticleSet p = new ParticleSet();
+		ParticleSet p = new ParticleSet(new Pose());
 		r.motors.addMoveListener(p);
 		WaypointNavigator w = new WaypointNavigator(p);
 		w.addElement(new Point(500, 500));

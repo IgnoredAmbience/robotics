@@ -17,15 +17,23 @@ import lejos.robotics.navigation.MoveProvider;
 public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveListener, PoseProvider {
 	private final static int DEFAULT_MAX_SIZE = 100;
 	private final static float unitsPerPixel = 30;
-
+	
 	public ParticleSet() {
-                this(DEFAULT_MAX_SIZE);
+		this(DEFAULT_MAX_SIZE);
 	}
 	
 	public ParticleSet(int maxSize) {
 		super(maxSize);
+	}
+
+	public ParticleSet(Pose initialPose) {
+    this(DEFAULT_MAX_SIZE, initialPose);
+	}
+	
+	public ParticleSet(int maxSize, Pose initialPose) {
+		this(maxSize);
 		for(int i = 0; i < maxSize; i++) {
-			add(new Particle());
+			add(new Particle(initialPose.getX(), initialPose.getY(), initialPose.getHeading()));
 		}
 	}
 	
@@ -90,7 +98,7 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 	
 	public void resample() {
 		
-		ParticleSet newSet = new ParticleSet (this.size());
+		ParticleSet newSet = new ParticleSet(this.size());
 		ArrayList<Pair> accumulatorArray = new ArrayList<Pair> ();
 		
 		float accumulator = 0.0f;

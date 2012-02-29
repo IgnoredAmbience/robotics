@@ -1,5 +1,6 @@
 import navigation.particles.ParticleSet;
 import robot.Robot;
+import utils.Pose;
 import lejos.nxt.Button;
 
 
@@ -10,7 +11,7 @@ public class MLCNavigation {
 		Button.waitForAnyPress();
 		
 		Robot r = new Robot();
-		ParticleSet p = new ParticleSet();
+		ParticleSet p = new ParticleSet(new Pose(840, 300));
 		
 		r.particleSet = p;
 		

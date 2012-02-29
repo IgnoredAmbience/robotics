@@ -7,7 +7,7 @@ import tasks.WaypointNavigator;
 public class CreateWayPoints {
 	public static WaypointNavigator getWayPoints(PoseProvider p) {
 		WaypointNavigator w = new WaypointNavigator(p); 
-		w.addElement(new Point(840, 300));
+		// Initial location - w.addElement(new Point(840, 300));
 		w.addElement(new Point(1800, 300));
 		w.addElement(new Point(1800, 540));
 		w.addElement(new Point(1260, 540));
