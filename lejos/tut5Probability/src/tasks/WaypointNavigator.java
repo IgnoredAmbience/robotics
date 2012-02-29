@@ -26,24 +26,23 @@ public class WaypointNavigator extends Queue<Point> implements Task {
 	}
 	
 	private void navigateTo(Point p, Robot r) {
-		
 		PredictOnSonar pre = new PredictOnSonar();
 		
-		pre.run(r);
+		//pre.run(r);
 		
-		System.err.println("Travel to: " + p.toString());
+		System.out.println("Travel to: " + p.toString());
 		Pose pose = poser.getPose();
 		float angle = pose.relativeBearing(p);
-		System.err.print(pose.toString() + " rotating: ");
-		System.err.println(angle);
+		System.out.print(pose.toString() + " rotating: ");
+		System.out.println(angle);
 		motor.rotate(-angle);
 		
-		pre.run(r);
+		//pre.run(r);
 		
 		Pose pose1 = poser.getPose();
 		float dist = pose1.distanceTo(p);
-		System.err.print(pose1.toString() + " travelling: ");
-		System.err.println(dist);
+		System.out.print(pose1.toString() + " travelling: ");
+		System.out.println(dist);
 		motor.travel(dist);
 	}
 }

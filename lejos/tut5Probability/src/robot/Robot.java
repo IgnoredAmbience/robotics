@@ -33,7 +33,7 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 	private final float WHEEL_DIAMETER = 56;
 	private final RegulatedMotor LEFT_MOTOR = Motor.C;
 	private final RegulatedMotor RIGHT_MOTOR = Motor.B;
-	public final double sonarDeviation = 0.0;
+	public final double sonarDeviation = 20;
 	private final int sonarOffset = 30;
 	
 	public Robot() {
@@ -104,7 +104,7 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 
 	public int getSensorDist() {
 		// TODO: calibratioon
-		return this.sonar.getDistance() + this.sonarOffset;
+		return this.sonar.getDistance() * 10 + this.sonarOffset;
 	}
 
 }

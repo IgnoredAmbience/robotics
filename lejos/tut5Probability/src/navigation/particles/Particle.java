@@ -15,26 +15,30 @@ public class Particle extends Pose {
 	
 	private float weight;
 	static float MOVE_DEVIATION = 7f;
-	static float ROTATE_DEVIATION = 5f;
+	static float ROTATE_DEVIATION = 1f;
 
 	public Particle() {
 		super();
-		this.setWeight(0);
+		this.setWeight(1);
 	}
 
 	public Particle(float x, float y, float angle) {
 		super(x, y, angle);
-		this.setWeight(0);
+		this.setWeight(1);
 	}
 
 	public Particle(float x, float y) {
 		super(x, y);
-		this.setWeight(0);
+		this.setWeight(1);
 	}
 	
 	public Particle(float x, float y, float angle, float weight) {
 		super(x, y, angle);
 		this.setWeight(weight);
+	}
+	
+	public String toString() {
+		return super.toString() + " W: " + String.valueOf(weight);
 	}
 
 	/**

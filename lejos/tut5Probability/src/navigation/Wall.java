@@ -41,17 +41,19 @@ public class Wall {
 	 * 
 	 * @param x x coordinate
 	 * @param y y coordinate
-	 * @param angle angle of the input line, given from the x axis.
+	 * @param degrees angle in degrees of the input line, given from the x axis.
 	 * @return the distance to the wall. Returns max double if the wall and line do not intersect.
 	 */
-	public float distanceToWall(float x, float y, float angle) {
+	public float distanceToWall(float x, float y, float degrees) {
+		float angle = (float) Math.toRadians(degrees);
 		
 		float yDiff = (float) (b.getY() - a.getY());
 		float xDiff = (float) (b.getX() - a.getX());
 		
 		float div = (float) ((yDiff * Math.cos(angle)) - xDiff * Math.sin(angle));
 		
-		if (div < ERROR) {
+		// Prevent /0 errors?
+		if (div < ERROR && div > -ERROR) {
 			return Float.MAX_VALUE;
 		}
 		
@@ -69,11 +71,21 @@ public class Wall {
 	public boolean willCollide(float x, float y, float angle) {
 		double dist = distanceToWall(x, y, angle);
 		Point intersect = movePoint(x, y, angle, dist);
+		/*
+		System.out.print("willCollide: (" + String.valueOf(x) + "," + String.valueOf(y) + "," + String.valueOf(angle));
+		System.out.print(a);
+		System.out.println(b);
+		System.out.print(dist);
+		System.out.print(" point: ");
+		System.out.print(intersect);
+		System.out.println(pointInLineBounds(intersect));
+		*/
 		
 		return pointInLineBounds(intersect);
 	}
 	
-	private Point movePoint (double x, double y, double angle, double distance) {
+	private Point movePoint (double x, double y, double degrees, double distance) {
+		double angle = Math.toRadians(degrees);
 		float newX = (float) (x + distance * Math.cos(angle));
 		float newY = (float) (y + distance * Math.sin(angle));
 		
@@ -81,12 +93,14 @@ public class Wall {
 	}
 	
 	private boolean pointInLineBounds(Point p) {
+		long x = Math.round(p.getX());
+		long y = Math.round(p.getY());
 		
 		// checks whether the x coordinate is between and then checks if the y coordinate is between.
-		return ((p.getX() < a.getX() && p.getX() > b.getX()) ||
-				(p.getX() > a.getX() && p.getX() < b.getX())) &&
-			   ((p.getY() < a.getY() && p.getY() > b.getY()) ||
-			     p.getY() > a.getY() && p.getY() < b.getY());
+		return ((x <= a.getX() && x >= b.getX()) ||
+				(x >= a.getX() && x <= b.getX())) &&
+			   ((y <= a.getY() && y >= b.getY()) ||
+			     y >= a.getY() && y <= b.getY());
 		
 	}
 }

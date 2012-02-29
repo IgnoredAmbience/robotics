@@ -33,7 +33,8 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 	public ParticleSet(int maxSize, Pose initialPose) {
 		this(maxSize);
 		for(int i = 0; i < maxSize; i++) {
-			add(new Particle(initialPose.getX(), initialPose.getY(), initialPose.getHeading()));
+			Particle p = new Particle(initialPose.getX(), initialPose.getY(), initialPose.getHeading());
+			add(p);
 		}
 	}
 	
@@ -73,19 +74,23 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 
 	@Override
 	public Pose getPose() {
-		resample();
+		//resample();
 		
 		double x = 0, y = 0, angle = 0, weight = 0;
 		for(Particle p : this) {
+			//System.out.println(p.toString());
 			x += p.getWeight() * p.getX();
 			y += p.getWeight() * p.getY();
 			angle += p.getWeight() * p.getHeading();
 			weight += p.getWeight();
 		}
+		//System.out.println(weight);
 		x /= weight;
 		y /= weight;
-                // FIXME: Angles cannot be handled so simply!
+    // FIXME: Angles cannot be handled so simply!
 		angle /= weight;
+		
+		drawToLCD();
 		
 		return new Pose((float) x, (float) y, (float) angle);
 	}
@@ -114,7 +119,6 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 			
 			Particle valueToAdd = null;
 			for (Pair p : accumulatorArray) {
-				
 				if (counter <= p.value) {
 					valueToAdd = p.attached;
 					break;

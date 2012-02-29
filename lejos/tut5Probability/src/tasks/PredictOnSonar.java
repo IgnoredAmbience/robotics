@@ -8,6 +8,7 @@ import robot.Robot;
 public class PredictOnSonar implements Task {
 	
 	private double sonarDeviation = 0.0;
+	private float gaussianConst = 0.01f;
 	
 	@Override
 	public void run(Robot r) {
@@ -20,6 +21,7 @@ public class PredictOnSonar implements Task {
 		for (Particle p : r.particleSet) {
 			
 			float newWeight = calculateLikelihood(p, dist, w);
+			//System.out.println(newWeight);
 			
 			p.setWeight(newWeight);
 			
@@ -35,7 +37,9 @@ public class PredictOnSonar implements Task {
 		}
 		float pDist = facing.distanceToWall(p);
 		
-		return gausianFunc(pDist, actualDist);
+		//System.out.println("Pdist: " + String.valueOf(pDist) + " actualDist: " + String.valueOf(actualDist));
+		
+		return gausianFunc(pDist, actualDist) + gaussianConst;
 	}
 
 	private float gausianFunc(float m, float z) {
