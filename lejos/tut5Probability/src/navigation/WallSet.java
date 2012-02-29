@@ -21,11 +21,11 @@ public class WallSet implements Iterable<Wall> {
 	public Wall facingWall(Pose p) {
 		
 		Wall nearestWall = null;
-		double nearestDist = Double.MAX_VALUE;
+		float nearestDist = Float.MAX_VALUE;
 		
 		for (Wall w : walls) {
-			double dist = w.distanceToWall(p);
-			if (w.willCollide(p) && dist < nearestDist) {
+			float dist = w.distanceToWall(p);
+			if (dist < nearestDist) {
 				nearestDist = dist;
 				nearestWall = w;
 			}

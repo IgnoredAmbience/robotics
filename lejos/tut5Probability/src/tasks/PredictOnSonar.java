@@ -30,6 +30,9 @@ public class PredictOnSonar implements Task {
 	public float calculateLikelihood(Particle p, float actualDist, WallSet w) {
 		
 		Wall facing = w.facingWall(p);
+		if (facing == null) {
+			throw new NullPointerException("There is no wall that you are facing");
+		}
 		float pDist = facing.distanceToWall(p);
 		
 		return gausianFunc(pDist, actualDist);
