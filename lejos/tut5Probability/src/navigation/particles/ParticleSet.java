@@ -12,16 +12,19 @@ import lejos.robotics.navigation.MoveProvider;
 
 
 public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveListener, PoseProvider {
-	private final static int MAX_SIZE = 100;
+	private final static int DEFAULT_MAX_SIZE = 100;
 	private final static float unitsPerPixel = 30;
 
-	
 	public ParticleSet() {
-		super(MAX_SIZE);
-		for(int i = 0; i < MAX_SIZE; i++) {
+                this(DEFAULT_MAX_SIZE);
+	}
+	
+	public ParticleSet(int maxSize) {
+		super(maxSize);
+		for(int i = 0; i < maxSize; i++) {
 			add(new Particle());
 		}
-	}	
+	}
 	
 	public float getWeight() {
 		return 1/this.size();
@@ -65,9 +68,10 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 			y += p.getY();
 			angle += p.getHeading();
 		}
-		x /= MAX_SIZE;
-		y /= MAX_SIZE;
-		angle /= MAX_SIZE;
+		x /= size();
+		y /= size();
+                // FIXME: Angles cannot be handled so simply!
+		angle /= size();
 		
 		return new Pose((float) x, (float) y, (float) angle);
 	}

@@ -2,10 +2,11 @@ package navigation;
 
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import lejos.robotics.navigation.Pose;
 
-public class WallSet {
+public class WallSet implements Iterable<Wall> {
 	
 	private Collection<Wall> walls;
 	
@@ -33,4 +34,13 @@ public class WallSet {
 		return nearestWall;
 	}
 	
+	
+	public void addWall(Wall w) {
+		walls.add(w);
+	}
+
+	@Override
+	public Iterator<Wall> iterator() {
+		return walls.iterator();
+	}
 }

@@ -31,7 +31,7 @@ public class RandomGenerator {
 	/**
 	 * Generates a random number between 0 and max
 	 * 
-	 * @param max the maximum value of afforementioned random number
+	 * @param max the maximum value of aforementioned random number
 	 * @return the number between 0 and max.
 	 */
 	public static float sampleUniform(float max) {

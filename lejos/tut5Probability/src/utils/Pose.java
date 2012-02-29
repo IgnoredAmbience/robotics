@@ -16,6 +16,12 @@ public class Pose extends lejos.robotics.navigation.Pose implements Drawable {
 	public Pose(float x, float y, float heading) {
 		super(x,y,heading);
 	}
+	
+	
+
+	public Pose(float x, float y) {
+		super(x, y, 0);
+	}
 
 	public void updatePose(Move m) {
 		switch(m.getMoveType()) {

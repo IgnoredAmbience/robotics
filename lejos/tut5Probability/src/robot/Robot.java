@@ -6,6 +6,8 @@ import utils.Pose;
 
 import java.lang.Runnable;
 
+import navigation.WallSet;
+
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.localization.PoseProvider;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -14,11 +16,15 @@ import lejos.robotics.navigation.MoveListener;
 import lejos.robotics.navigation.MoveProvider;
 import lejos.robotics.navigation.RotateMoveController;
 import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
+import lejos.nxt.UltrasonicSensor;
 
 public class Robot implements Runnable, MoveListener, PoseProvider {
 	
 	private DoubleHeadedQueue<Task> tasks;
 	public RotateMoveController motors;
+	public UltrasonicSensor sonar;
+	public WallSet wallSet;
 	private Pose pose = new Pose(1000,1000,0);
 	
 	private final float WHEEL_SEPARATION = 200;
@@ -30,6 +36,8 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 		this.motors = new DifferentialPilot(WHEEL_DIAMETER, WHEEL_SEPARATION, LEFT_MOTOR, RIGHT_MOTOR);
 		tasks = new DoubleHeadedQueue<Task> ();
 		motors.addMoveListener(this);
+		sonar =  new UltrasonicSensor(SensorPort.S1);
+		wallSet = new WallSet();
 	}
 	
 	/**
@@ -89,4 +97,10 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 	public synchronized void moveStopped(Move m, MoveProvider mp) {
 		pose.updatePose(m);
 	}
+
+	public int getSensorDist() {
+		// TODO: calibratioon
+		return this.sonar.getDistance();
+	}
+
 }
