@@ -11,11 +11,16 @@ public class MLCNavigation {
 		
 		Robot r = new Robot();
 		ParticleSet p = new ParticleSet();
+		
+		r.particleSet = p;
+		
 		r.motors.addMoveListener(p);
 		
 		r.wallSet = CreateWalls.createWalls();
 		
 		r.addTaskToEnd(CreateWayPoints.getWayPoints(p));
+		
+		
 		
 		r.run();
 	}
