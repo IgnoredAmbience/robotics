@@ -1,6 +1,7 @@
 package navigation.particles;
 
-import navigation.Pose;
+import utils.Pose;
+import utils.RandomGenerator;
 
 /**
  * A class that shows a particle with a position,  facing and positive weight.
@@ -13,23 +14,25 @@ public class Particle extends Pose {
 	
 	
 	private float weight;
+	static float MOVE_DEVIATION = 7f;
+	static float ROTATE_DEVIATION = 5f;
 
 	public Particle() {
 		super();
 		this.setWeight(0);
 	}
 
-	public Particle(double x, double y, double angle) {
+	public Particle(float x, float y, float angle) {
 		super(x, y, angle);
 		this.setWeight(0);
 	}
 
-	public Particle(double x, double y) {
+	public Particle(float x, float y) {
 		super(x, y);
 		this.setWeight(0);
 	}
 	
-	public Particle(double x, double y, double angle, float weight) {
+	public Particle(float x, float y, float angle, float weight) {
 		super(x, y, angle);
 		this.setWeight(weight);
 	}
@@ -52,5 +55,15 @@ public class Particle extends Pose {
 	 */
 	public float getWeight() {
 		return this.weight;
+	}
+	
+	@Override
+	public void moveUpdate(float distance) {
+		super.moveUpdate(RandomGenerator.sampleGaussian(distance, MOVE_DEVIATION));
+	}
+	
+	@Override
+	public void rotateUpdate(float angle) {
+		super.rotateUpdate(RandomGenerator.sampleGaussian(angle, ROTATE_DEVIATION));
 	}
 }

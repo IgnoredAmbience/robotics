@@ -11,7 +11,7 @@ public class Resampler {
 	
 	public static ParticleSet resample(ParticleSet s, int resampleSize) {
 		
-		ParticleSet newSet = new ParticleSet ();
+		ParticleSet newSet = new ParticleSet (resampleSize);
 		ArrayList<Pair> accumulatorArray = new ArrayList<Pair> ();
 		
 		float accumulator = 0.0f;

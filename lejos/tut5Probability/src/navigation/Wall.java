@@ -1,8 +1,7 @@
 package navigation;
 
-import navigation.Pose;
-
 import lejos.geom.Point;
+import lejos.robotics.navigation.Pose;
 
 import java.lang.Math;
 
@@ -30,7 +29,7 @@ public class Wall {
 	 * @return the distance to the wall.
 	 */
 	public double distanceToWall(Pose p) {
-		return distanceToWall(p.getX(), p.getY(), p.getAngle());
+		return distanceToWall(p.getX(), p.getY(), p.getHeading());
 	}
 	
 	/**
@@ -62,7 +61,7 @@ public class Wall {
 	}
 	
 	public boolean willCollide(Pose p) {
-		return willCollide(p.getX(), p.getY(), p.getAngle());
+		return willCollide(p.getX(), p.getY(), p.getHeading());
 	}
 	
 	

@@ -1,18 +1,20 @@
-import robot.MovementController;
+import navigation.particles.ParticleSet;
+import robot.Robot;
+import tasks.MoveInSquare;
 import lejos.nxt.Button;
-import lejos.nxt.Motor;
-import lejos.robotics.navigation.DifferentialPilot;
-import lejos.robotics.navigation.RotateMoveController;
 
 public class Main {
 	public static void main (String [] args) {
 		Button.waitForAnyPress();
 		
-		RotateMoveController m = new MovementController(56, 125f, Motor.C, Motor.B);
-		 
-		for(int i = 0; i < 4; i++) {
-		  m.travel(400);
-		  m.rotate(90);
-		}
+		Robot r = new Robot();
+		ParticleSet p = new ParticleSet();
+		r.motors.addMoveListener(p);
+		
+		r.addTaskToEnd(new MoveInSquare());
+		
+		r.run();
+		
+		Button.waitForAnyPress();
 	}
 }

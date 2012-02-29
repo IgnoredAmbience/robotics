@@ -15,11 +15,11 @@ public class BasicResample {
 	
 	@Before
 	public void setUp() throws Exception {
-		p = new ParticleSet();
-		p.add(new Particle(2d, 0d, 0d, 0.2f));
-		p.add(new Particle(1d, 0d, 0d, 0.1f));
-		p.add(new Particle(3d, 0d, 0d, 0.3f));
-		p.add(new Particle(4d, 0d, 0d, 0.4f));
+		p = new ParticleSet(4);
+		p.set(0, new Particle(2f, 0f, 0f, 0.2f));
+		p.set(1, new Particle(1f, 0f, 0f, 0.1f));
+		p.set(2, new Particle(3f, 0f, 0f, 0.3f));
+		p.set(3, new Particle(4f, 0f, 0f, 0.4f));
 	}
 	
 	@Test
