@@ -156,6 +156,8 @@ public class MovementController implements RotateMoveController, RegulatedMotorL
 		int angle = Math.round((float) (distance * _degPerDistance));
 		_l.rotate(angle, true);
 		_r.rotate(angle, immediateReturn);
+		
+    if (!immediateReturn)  while (isMoving()) Thread.yield();
 	}
 	
 
@@ -266,6 +268,7 @@ public class MovementController implements RotateMoveController, RegulatedMotorL
 	 * Notifies all registered MovementListeners of the event 
 	 */
 	private void movementStarted() {
+    if (isMoving())  movementStopped();
 		resetTacho();
 		for(MoveListener ml : _moveListeners) {
 			Move m = new Move(_move, (float) _moveDistance, (float) _moveRotate,

@@ -24,14 +24,14 @@ public class MoveInSquare implements Task {
 	@Override
 	public void run(Robot r) {
 		
-		r.addTaskToHead(new MoveForward(squareSize));
-		r.addTaskToHead(new Rotate(90));
-		r.addTaskToHead(new MoveForward(squareSize));
-		r.addTaskToHead(new Rotate(90));
-		r.addTaskToHead(new MoveForward(squareSize));
-		r.addTaskToHead(new Rotate(90));
-		r.addTaskToHead(new MoveForward(squareSize));
-		r.addTaskToHead(new Rotate(90));
+		r.addTaskToEnd(new MoveForward(squareSize));
+		r.addTaskToEnd(new Rotate(90));
+		r.addTaskToEnd(new MoveForward(squareSize));
+		r.addTaskToEnd(new Rotate(90));
+		r.addTaskToEnd(new MoveForward(squareSize));
+		r.addTaskToEnd(new Rotate(90));
+		r.addTaskToEnd(new MoveForward(squareSize));
+		r.addTaskToEnd(new Rotate(90));
 
 	}
 

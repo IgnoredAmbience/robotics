@@ -11,9 +11,11 @@ import navigation.particles.ParticleSet;
 
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.localization.PoseProvider;
+import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Move;
 import lejos.robotics.navigation.MoveListener;
 import lejos.robotics.navigation.MoveProvider;
+import lejos.robotics.navigation.RotateMoveController;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
@@ -21,20 +23,20 @@ import lejos.nxt.UltrasonicSensor;
 public class Robot implements Runnable, MoveListener, PoseProvider {
 	
 	private DoubleHeadedQueue<Task> tasks;
-	public MovementController motors;
+	public RotateMoveController motors;
 	public UltrasonicSensor sonar;
 	public WallSet wallSet;
 	public ParticleSet particleSet;
 	private Pose pose = new Pose(1000,1000,0);
 	
-	private final float WHEEL_SEPARATION = 125;
+	private final float WHEEL_SEPARATION = 200;
 	private final float WHEEL_DIAMETER = 56;
 	private final RegulatedMotor LEFT_MOTOR = Motor.C;
 	private final RegulatedMotor RIGHT_MOTOR = Motor.B;
 	public final double sonarDeviation = 1;
 	
 	public Robot() {
-		this.motors = new MovementController (WHEEL_DIAMETER, WHEEL_SEPARATION, LEFT_MOTOR, RIGHT_MOTOR);
+		this.motors = new DifferentialPilot(WHEEL_DIAMETER, WHEEL_SEPARATION, LEFT_MOTOR, RIGHT_MOTOR);
 		tasks = new DoubleHeadedQueue<Task> ();
 		motors.addMoveListener(this);
 		sonar =  new UltrasonicSensor(SensorPort.S1);
@@ -97,8 +99,6 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 	@Override
 	public synchronized void moveStopped(Move m, MoveProvider mp) {
 		pose.updatePose(m);
-		System.out.print(m.toString());
-		System.out.println(pose.toString());
 	}
 
 	public int getSensorDist() {
