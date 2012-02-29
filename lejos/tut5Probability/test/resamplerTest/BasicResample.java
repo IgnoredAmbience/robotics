@@ -7,7 +7,6 @@ import navigation.particles.ParticleSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import MCLocalisation.Resampler;
 
 public class BasicResample {
 
@@ -24,8 +23,8 @@ public class BasicResample {
 	
 	@Test
 	public void test() {
-		ParticleSet newSet = Resampler.resample(p, 4);
-		Assert.assertTrue(newSet.size() == 4);
+		p.resample();
+		Assert.assertTrue(p.size() == 4);
 	}
 
 }
