@@ -23,7 +23,7 @@ import lejos.nxt.UltrasonicSensor;
 public class Robot implements Runnable, MoveListener, PoseProvider {
 	
 	private DoubleHeadedQueue<Task> tasks;
-	public RotateMoveController motors;
+	public DifferentialPilot motors;
 	public UltrasonicSensor sonar;
 	public WallSet wallSet;
 	public ParticleSet particleSet;

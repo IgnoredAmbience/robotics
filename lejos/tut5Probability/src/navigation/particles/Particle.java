@@ -68,6 +68,8 @@ public class Particle extends Pose {
 	
 	@Override
 	public void rotateUpdate(float angle) {
+		System.out.print("Rotated from: "+getHeading() + " by: " + angle);
 		super.rotateUpdate(RandomGenerator.sampleGaussian(angle, ROTATE_DEVIATION));
+		System.out.println(" to: "+getHeading());
 	}
 }

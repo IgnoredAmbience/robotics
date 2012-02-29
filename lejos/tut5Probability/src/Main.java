@@ -18,6 +18,8 @@ public class Main {
 		r.run();
 		*/
 		
+		r.motors.rotateLeft();
+		/*
 		ParticleSet p = new ParticleSet(new Pose());
 		r.motors.addMoveListener(p);
 		WaypointNavigator w = new WaypointNavigator(p);
@@ -27,6 +29,7 @@ public class Main {
 		
 		r.addTaskToEnd(w);
 		r.run();
+		*/
 		
 		Button.waitForAnyPress();
 	}

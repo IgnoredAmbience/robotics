@@ -76,23 +76,23 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 	public Pose getPose() {
 		//resample();
 		
-		double x = 0, y = 0, angle = 0, weight = 0;
+		double x = 0, y = 0, angle1 = 0, angle2 = 0, weight = 0;
 		for(Particle p : this) {
-			//System.out.println(p.toString());
 			x += p.getWeight() * p.getX();
 			y += p.getWeight() * p.getY();
-			angle += p.getWeight() * p.getHeading();
+			angle1 += p.getWeight() * Math.sin(Math.toRadians(p.getHeading()));
+			angle2 += p.getWeight() * Math.cos(Math.toRadians(p.getHeading()));
 			weight += p.getWeight();
 		}
-		//System.out.println(weight);
+
 		x /= weight;
 		y /= weight;
-    // FIXME: Angles cannot be handled so simply!
-		angle /= weight;
 		
 		drawToLCD();
 		
-		return new Pose((float) x, (float) y, (float) angle);
+		Pose p = new Pose((float) x, (float) y, 0);
+		p.rotateUpdate((float) Math.toDegrees(Math.atan2(angle1, angle2)));
+		return p;
 	}
 
 	@Override
