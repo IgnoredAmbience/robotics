@@ -1,7 +1,6 @@
 import navigation.particles.ParticleSet;
 import robot.Robot;
 import tasks.MoveInSquare;
-import tasks.PositionPlotter;
 import tasks.WaypointNavigator;
 import utils.Pose;
 import lejos.geom.Point;

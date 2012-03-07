@@ -20,14 +20,13 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
-public class Robot implements Runnable, MoveListener, PoseProvider {
+public class Robot implements Runnable, MoveListener {
 	
 	private DoubleHeadedQueue<Task> tasks;
 	public DifferentialPilot motors;
 	public UltrasonicSensor sonar;
 	public WallSet wallSet;
 	public ParticleSet particleSet;
-	private Pose pose = new Pose(1000,1000,0);
 	
 	private final float WHEEL_SEPARATION = 175;
 	private final float WHEEL_DIAMETER = 55;
@@ -74,37 +73,15 @@ public class Robot implements Runnable, MoveListener, PoseProvider {
 		return tasks.peekFront();
 	}
 
-	/*
-	 * Pose provider and updater functions
-	 */
-	
-	@Override
-	public Pose getPose() {
-		return pose;
-	}
-	
-	public synchronized Pose getCurrentPose() {
-		Pose p = new Pose(pose.getX(), pose.getY(), pose.getHeading());
-		p.updatePose(motors.getMovement());
-		return p;
-	}
-
-	@Override
-	public synchronized void setPose(lejos.robotics.navigation.Pose aPose) {
-		pose = (Pose) aPose;
+	public int getSensorDist() {
+		// TODO: calibratioon
+		return this.sonar.getDistance() * 10 + this.sonarOffset;
 	}
 
 	@Override
 	public void moveStarted(Move event, MoveProvider mp) {}
 
 	@Override
-	public synchronized void moveStopped(Move m, MoveProvider mp) {
-		pose.updatePose(m);
-	}
-
-	public int getSensorDist() {
-		// TODO: calibratioon
-		return this.sonar.getDistance() * 10 + this.sonarOffset;
-	}
+	public void moveStopped(Move event, MoveProvider mp) {}
 
 }
