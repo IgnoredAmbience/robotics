@@ -16,13 +16,9 @@ import lejos.robotics.navigation.MoveProvider;
 
 public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveListener, PoseProvider {
 	private final static int DEFAULT_MAX_SIZE = 100;
-	private final static float unitsPerPixel = 30;
+	private Pose currentPose;
 	
-	public ParticleSet() {
-		this(DEFAULT_MAX_SIZE);
-	}
-	
-	public ParticleSet(int maxSize) {
+	private ParticleSet(int maxSize) {
 		super(maxSize);
 	}
 
@@ -32,26 +28,12 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 	
 	public ParticleSet(int maxSize, Pose initialPose) {
 		this(maxSize);
-		for(int i = 0; i < maxSize; i++) {
-			Particle p = new Particle(initialPose.getX(), initialPose.getY(), initialPose.getHeading());
-			add(p);
-		}
+		currentPose = initialPose;
+		setPose(initialPose);
 	}
 	
 	public float getWeight() {
 		return 1/this.size();
-	}
-	
-	public void moveUpdate(float distance) {
-		for(Particle p : this) {
-			p.moveUpdate(distance);
-		}
-	}
-	
-	public void rotateUpdate(float angle) {
-		for(Particle p : this) {
-			p.rotateUpdate(angle);
-		}
 	}
 
 	@Override
@@ -69,40 +51,24 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 		for(Pose p : this) {
 			p.updatePose(event);
 		}
-		drawToLCD();
+		resample();
 	}
 
 	@Override
 	public Pose getPose() {
-		resample();
-		
-		double x = 0, y = 0, angle1 = 0, angle2 = 0, weight = 0;
-		for(Particle p : this) {
-			x += p.getWeight() * p.getX();
-			y += p.getWeight() * p.getY();
-			angle1 += p.getWeight() * Math.sin(Math.toRadians(p.getHeading()));
-			angle2 += p.getWeight() * Math.cos(Math.toRadians(p.getHeading()));
-			weight += p.getWeight();
-		}
-
-		x /= weight;
-		y /= weight;
-		
-		drawToLCD();
-		
-		Pose p = new Pose((float) x, (float) y, 0);
-		p.rotateUpdate((float) Math.toDegrees(Math.atan2(angle1, angle2)));
-		return p;
+		return currentPose;
 	}
 
 	@Override
 	public void setPose(lejos.robotics.navigation.Pose aPose) {
-		// Intentionally empty
+		for(int i = 0; i < size(); i++) {
+			clear();
+			Particle p = new Particle(aPose.getX(), aPose.getY(), aPose.getHeading());
+			add(p);
+		}
 	}
 	
-	
 	public void resample() {
-		
 		ParticleSet newSet = new ParticleSet(this.size());
 		ArrayList<Pair> accumulatorArray = new ArrayList<Pair> ();
 		
@@ -134,8 +100,24 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 		
 		this.clear();
 		
+
+		// Calculate current pose
+		double x = 0, y = 0, angle1 = 0, angle2 = 0, weight = 0;
+		
 		for (Particle p : newSet) {
 			this.add(p);
-		}		
+			
+			x += p.getWeight() * p.getX();
+			y += p.getWeight() * p.getY();
+			angle1 += p.getWeight() * Math.sin(Math.toRadians(p.getHeading()));
+			angle2 += p.getWeight() * Math.cos(Math.toRadians(p.getHeading()));
+			weight += p.getWeight();
+		}
+
+		x /= weight;
+		y /= weight;
+		
+		currentPose = new Pose((float) x, (float) y, 0);
+		currentPose.rotateUpdate((float) Math.toDegrees(Math.atan2(angle1, angle2)));
 	}
 }

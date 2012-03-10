@@ -1,5 +1,6 @@
 package robot;
 
+import utils.RotatingSonarReading;
 import lejos.nxt.I2CPort;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.Sound;
@@ -7,13 +8,30 @@ import lejos.nxt.TachoMotorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.RegulatedMotor;
 
-public class RotatingSonar {
+public class RotatingSonar extends Thread {
 	RegulatedMotor m;
 	UltrasonicSensor s;
 	
 	public RotatingSonar(TachoMotorPort mp, I2CPort sp) {
 		m = new NXTRegulatedMotor(mp);
 		s = new UltrasonicSensor(sp);
+		m.setSpeed(100);
+		s.continuous();
+	}
+	
+	public void run() {
+		while(true) {
+			m.rotateTo(-90);
+			m.rotateTo(90);
+		}
+	}
+	
+	public RotatingSonarReading getDistance() {
+		RotatingSonarReading r = new RotatingSonarReading();
+		r.angle = m.getTachoCount();
+		r.distance = s.getDistance();
+		Sound.beep();
+		return r;
 	}
 
 	public int[] scanRange(int fromAngle, int toAngle) {
