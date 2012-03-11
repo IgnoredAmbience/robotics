@@ -20,7 +20,7 @@ public class RotatingSonar extends Thread {
 	}
 	
 	public void run() {
-		while(true) {
+		while(!isInterrupted()) {
 			m.rotateTo(-90);
 			m.rotateTo(90);
 		}

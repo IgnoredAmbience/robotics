@@ -17,6 +17,7 @@ import lejos.robotics.navigation.MoveProvider;
 public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveListener, PoseProvider {
 	private final static int DEFAULT_MAX_SIZE = 100;
 	private Pose currentPose;
+	private boolean needsUpdate = false;
 	
 	private ParticleSet(int maxSize) {
 		super(maxSize);
@@ -51,11 +52,14 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 		for(Pose p : this) {
 			p.updatePose(event);
 		}
-		resample();
+		needsUpdate = true;
 	}
 
 	@Override
 	public Pose getPose() {
+		if(needsUpdate) {
+			resample();
+		}
 		return currentPose;
 	}
 
@@ -119,5 +123,6 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 		
 		currentPose = new Pose((float) x, (float) y, 0);
 		currentPose.rotateUpdate((float) Math.toDegrees(Math.atan2(angle1, angle2)));
+		needsUpdate = false;
 	}
 }

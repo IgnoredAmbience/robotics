@@ -37,12 +37,14 @@ public class Robot implements Runnable, PoseProvider {
 	public final double sonarDeviation = 20;
 	private final int sonarOffset = 30;
 	
-	public Robot() {
+	public Robot(Pose p) {
 		this.motors = new DifferentialPilot(WHEEL_DIAMETER, WHEEL_SEPARATION, LEFT_MOTOR, RIGHT_MOTOR);
 		tasks = new DoubleHeadedQueue<Task> ();
-		motors.addMoveListener(particleSet);
 		sonar =  new UltrasonicSensor(SensorPort.S1);
 		wallSet = new WallSet();
+		particleSet = new ParticleSet(p);
+		
+		motors.addMoveListener(particleSet);
 	}
 	
 	/**
