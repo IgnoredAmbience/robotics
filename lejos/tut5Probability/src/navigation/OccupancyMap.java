@@ -15,7 +15,9 @@ public class OccupancyMap {
 	
 	public boolean display;
 	private float lx, ly;
-	private final int DISPLAY_THRESH = 1;
+	private final int DISPLAY_THRESH = -1;
+	private final int halfBeamWidth = 25;
+	private final int BUFFER = 0;
 	
 	public OccupancyMap() {
 		this(4000, 2560, 40, true);
@@ -36,13 +38,25 @@ public class OccupancyMap {
 		ly = LCD.SCREEN_HEIGHT / (my / g);
 	}
 	
+	public void clear() {
+		for(int i = 0; i < map.length; i++) {
+			for(int j = 0; j < map[0].length; j++) {
+				map[i][j] = 0;
+			}
+		}
+		if(display) LCD.clear();
+	}
+	
 	int getValueAt(Point p) throws IndexOutOfBoundsException {
 		if(p.x < 0 || p.x > mx) {
 			throw new IndexOutOfBoundsException("Point x out of bounds: " + p.x + " <> " + mx);
 		} else if(p.y < 0 || p.y > my) {
 			throw new IndexOutOfBoundsException("Point y out of bounds: " + p.y + " <> " + my);
 		} else {
-			return map[((int) p.x)/g][((int) p.y)/g];
+			int x = (int) p.x / g;
+			int y = (int) p.y / g;
+			
+			return map[x][y];
 		}
 	}
 	
@@ -55,14 +69,29 @@ public class OccupancyMap {
 		} else {
 			map[x][y] += v;
 			if(display) {
-				LCD.setPixel((int) (x*lx), (int) (y*ly),
-						map[x][y] >= DISPLAY_THRESH ? 1 : 0);
+				LCD.setPixel((int) (x*lx), LCD.SCREEN_HEIGHT - (int) (y*ly),
+						map[x][y] <= DISPLAY_THRESH ? 1 : 0);
 			}
 		}
 	}
 	
 	private void addValueAtCoord(float x, float y, int v) {
 		addValueAtCell((int) (x/g), (int) (y/g), v);
+	}
+	
+	public int findOccupiedDistance(Pose p, int max) {
+		for(int i = 0; i < max; i++) {
+			Point test = p.pointAt(i, p.getHeading());
+			try {
+				if(getValueAt(test) < 0) {
+					return i;
+				}
+			} catch (IndexOutOfBoundsException e) {
+				return i-1;
+			}
+		}
+		
+		return max;
 	}
 	
 	/**
@@ -77,8 +106,6 @@ public class OccupancyMap {
 	 * @param distance Distance to obstruction
 	 */
 	public void updateValue(Pose robotPose, int angle, int distance) {
-		int halfBeamWidth = 25;
-		
 		Point rayEnd = robotPose.pointAt(distance, robotPose.getHeading() + angle);
 		
 		int x0 = (int) (robotPose.getX());
@@ -87,8 +114,8 @@ public class OccupancyMap {
 		int y1 = (int) (rayEnd.getY());
 		
 		// Mark cells around beam end as filled
-		for(int cx = -1; cx <= 1; cx++) {
-			for(int cy = -1; cy <= 1; cy++) {
+		for(int cx = -BUFFER; cx <= BUFFER; cx++) {
+			for(int cy = -BUFFER; cy <= BUFFER; cy++) {
 				addValueAtCell(cx + x1/g, cy + y1/g, -1);
 			}
 		}
@@ -106,7 +133,7 @@ public class OccupancyMap {
 			y1 = t;
 		}
 
-		float m = (y1 - y0)/(x1 - x0);
+		float m = (y1 - y0)/(x1 - x0 + 0.0001f);
 		
 		// We approximate a wide beam with ends parallel to the axes
 		// Mark all cells up to beam end as clear

@@ -60,7 +60,7 @@ public class ParticleSet extends ArrayList<Particle> implements Drawable, MoveLi
 		if(needsUpdate) {
 			resample();
 		}
-		return currentPose;
+		return new Pose(currentPose.getX(), currentPose.getY(), currentPose.getHeading());
 	}
 
 	@Override

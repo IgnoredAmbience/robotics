@@ -20,7 +20,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
-public class Robot implements Runnable, PoseProvider {
+public class Robot implements Runnable, PoseProvider, MoveListener {
 	
 	private DoubleHeadedQueue<Task> tasks;
 	public DifferentialPilot motors;
@@ -28,7 +28,8 @@ public class Robot implements Runnable, PoseProvider {
 	public WallSet wallSet;
 	
 	// Our PoseProvider
-	private ParticleSet particleSet;
+	//private ParticleSet particleSet;
+	private Pose pose;
 	
 	private final float WHEEL_SEPARATION = 175;
 	private final float WHEEL_DIAMETER = 55;
@@ -42,9 +43,11 @@ public class Robot implements Runnable, PoseProvider {
 		tasks = new DoubleHeadedQueue<Task> ();
 		sonar =  new UltrasonicSensor(SensorPort.S1);
 		wallSet = new WallSet();
-		particleSet = new ParticleSet(p);
+		//particleSet = new ParticleSet(p);
 		
-		motors.addMoveListener(particleSet);
+		//motors.addMoveListener(particleSet);
+		motors.addMoveListener(this);
+		pose = p;
 	}
 	
 	/**
@@ -84,11 +87,25 @@ public class Robot implements Runnable, PoseProvider {
 
 	@Override
 	public lejos.robotics.navigation.Pose getPose() {
-		return particleSet.getPose();
+		Pose p = pose;
+		if(motors.isMoving()) {
+			Move m = motors.getMovement();
+			p = new Pose(pose.getX(), pose.getY(), pose.getHeading());
+			p.updatePose(m);
+		}
+		return p;
 	}
 
 	@Override
 	public void setPose(lejos.robotics.navigation.Pose aPose) {
-		particleSet.setPose(aPose);
+		pose = (Pose) aPose;
+	}
+
+	@Override
+	public void moveStarted(Move event, MoveProvider mp) {}
+
+	@Override
+	public void moveStopped(Move event, MoveProvider mp) {
+		pose.updatePose(event);
 	}
 }

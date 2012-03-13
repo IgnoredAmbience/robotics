@@ -15,7 +15,7 @@ public class RotatingSonar extends Thread {
 	public RotatingSonar(TachoMotorPort mp, I2CPort sp) {
 		m = new NXTRegulatedMotor(mp);
 		s = new UltrasonicSensor(sp);
-		m.setSpeed(100);
+		m.setSpeed(200);
 		s.continuous();
 	}
 	
@@ -30,7 +30,6 @@ public class RotatingSonar extends Thread {
 		RotatingSonarReading r = new RotatingSonarReading();
 		r.angle = m.getTachoCount();
 		r.distance = s.getDistance();
-		Sound.beep();
 		return r;
 	}
 
